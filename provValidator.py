@@ -115,6 +115,21 @@ def get_prov_file(mac):
             print("    VF URL: Algo: " + line[21:].strip() + "\n")
             provURL = line[21:].strip()
             break
+          elif 'CFG_STANDARD_FILE_PATH="' in line and '#CFG_' not in line:  # look for Panasonic url
+            provURL = line[24:].strip()
+            if provURL == '"':
+                provURL = 'standard url is empty'
+                print("    VF URL: Panasonic: " + provURL + "\n")
+                continue
+            print("    VF URL: Panasonic: " + provURL + "\n")
+            break
+          elif 'CFG_PRODUCT_FILE_PATH="' in line and '#CFG_' not in line:  # look for Panasonic url
+            provURL = line[23:].strip()
+            if provURL == '"':
+                provURL = 'product url is empty'
+                continue
+            print("    VF URL: Panasonic: " + provURL + "\n")
+            break
           elif 'device.prov.serverName' in line:  # Polycom url
             #print(line)
             match = (re.search('device.prov.serverName',line))
