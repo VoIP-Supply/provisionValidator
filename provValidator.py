@@ -57,7 +57,7 @@ def scanIP(target_ip, browser):
         elif (client['vendor'] == 'Panasoni'):
             print("{:<5}{:20}{:16}{}".format(str(i) + ')', client['ip'], client['mac'].replace(':', ''),client['vendor']))
             Pd1 = get_panasonic_url(browser, client['ip'], 'admin', 'adminpass')
-
+            print('    IP: ' + Pd1.ip + ' MAC: ' + Pd1.mac + ' DHCP: ' + Pd1.static + ' URL: ' + Pd1.web + ' ' + Pd1.url + ' Model: ' + Pd1.model + ' Firmware: ' + Pd1.version + ' Status: ' + Pd1.status)
         elif (client['vendor'] == 'JetwayIn'):
             continue
         else:
