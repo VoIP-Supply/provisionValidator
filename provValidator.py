@@ -458,7 +458,8 @@ def get_obihai_url(browser,ip,usernameText,passwordText):
 
         if browser.title.find('OBi302') > -1:
             provURL = get_prov_file(Pd1.mac)
-            Pd1Set = set_obihai_url(browser, ip, 'admin', 'admin', provURL)
+            if provURL != '':
+                Pd1Set = set_obihai_url(browser, ip, 'admin', 'admin', provURL)
 
         #browser.switch_to.frame('bot_frame')
         #browser.find_element_by_xpath("/html/body/div[@id='container']/ul[@id='nav2'][2]/li[@class='collapsed'][3]/span[@class='menuheading']").click()
@@ -553,8 +554,13 @@ opts.add_argument('--ignore-ssl-errors=yes')
 opts.add_argument('--ignore-certificate-errors')
 opts.add_argument("--log-level=3")
 
-browser = Chrome(options=opts, executable_path='chromedriver')
-browser.set_page_load_timeout(10)
+try:
+    browser = Chrome(options=opts, executable_path='chromedriver')
+    browser.set_page_load_timeout(10)
+except Exception as e:
+    print( str(e.msg) )
+    print ('Google Chrome has been updated.  download a new version of the chromedriver that matches the Current browser version above:   https://chromedriver.chromium.org/downloads')
+    exit();
 
 ip = socket.gethostbyname(socket.gethostname())
 target_ip = ip[0:10].strip() + "1/24"  # pull the 192.168.x. out of the local ip.  won't work on 192.168.xx. without additional logic
