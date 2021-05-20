@@ -498,6 +498,7 @@ def set_obihai_url(browser,ip,usernameText,passwordText,provURL):
         browser.get('http://' + ip + '/DM_S_.xml')
         time.sleep(0.5)
 
+        #ConfigURL
         isChecked = browser.find_element_by_name('7f7d0175usedefault').get_attribute('checked')
         if isChecked == 'true':
             browser.find_element_by_name('7f7d0175usedefault').click()  # uncheck "Default" for ConfigURL
@@ -509,6 +510,20 @@ def set_obihai_url(browser,ip,usernameText,passwordText,provURL):
         if isChecked == 'true':
             browser.find_element_by_name('79d6d10dusedefault').click()  # uncheck "Default" for Method
         select = Select(browser.find_element_by_name('79d6d10d'))
+        select.select_by_visible_text('System Start')
+
+        #FirmwareURL
+        isChecked = browser.find_element_by_name('e64ca815usedefault').get_attribute('checked')
+        if isChecked == 'true':
+            browser.find_element_by_name('e64ca815usedefault').click()  # uncheck "Default" for FirmwareURL
+        time.sleep(0.25)
+        newURL = browser.find_element_by_name("e64ca815")  #FirmwareURL
+        newURL.clear()
+        newURL.send_keys('@begin IF ( $FWV >= 3.1.2.5998 ) EXIT; @start SET TPRM2 = 2;        FWU -T=TPRM2 http://fw.obihai.com/OBi202-3-2-2-5921EX-332148940.fw;        IF ( $TPRM2 != 0 ) EXIT;        WAIT 60;        GOTO start;')
+        isChecked = browser.find_element_by_name('46eb45e6usedefault').get_attribute('checked')
+        if isChecked == 'true':
+            browser.find_element_by_name('46eb45e6usedefault').click()  # uncheck "Default" for Method
+        select = Select(browser.find_element_by_name('46eb45e6'))
         select.select_by_visible_text('System Start')
 
         browser.find_element_by_name('btn_sub').click()
@@ -558,8 +573,8 @@ try:
     browser = Chrome(options=opts, executable_path='chromedriver')
     browser.set_page_load_timeout(10)
 except Exception as e:
-    print( str(e.msg) )
-    print ('Google Chrome has been updated.  download a new version of the chromedriver that matches the Current browser version above:   https://chromedriver.chromium.org/downloads')
+    print(str(e.msg))
+    print('Google Chrome has been updated.  download a new version of the chromedriver that matches the Current browser version above:   https://chromedriver.chromium.org/downloads')
     exit();
 
 ip = socket.gethostbyname(socket.gethostname())
